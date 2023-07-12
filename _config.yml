@@ -1,0 +1,5 @@
+remote_theme: pages-themes/architect@v0.2.0
+title: Vercel Serverless FastApi
+description: FastApi application hosted on Vercel as a Serverless functions
+plugins:
+- jekyll-remote-theme # add this line to the plugins list if you already have one
