@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
+from pydantic import BaseModel
 
 
 app = FastAPI()
@@ -15,15 +16,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def hello(name: str):
-    return {"message": f"Hello {name}"}
+class Employee(BaseModel):
+    employeeId : int
+    firstName : str
+    firstName : str
+    lastName : str
+    employeeEmail : str
 
 
 employee_data = [
@@ -51,6 +49,21 @@ employee_data = [
 ]
 
 
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+@app.get("/hello/{name}")
+async def hello(name: str):
+    return {"message": f"Hello {name}"}
+
+
 @app.get("/employees")
 async def list_employees():
     return ORJSONResponse(employee_data)
+
+@app.post("/add_employee")
+async def add_employee(employee: Employee):
+    print(employee.__dict__)
+    return 200

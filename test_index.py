@@ -1,6 +1,6 @@
 import pytest
 
-from src.index import root, hello
+from src.main import root, hello
 
 @pytest.mark.asyncio
 async def test_root():
