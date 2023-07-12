@@ -111,18 +111,21 @@ async def add_employee(employee: Employee):
         "status": 200, "id":employee.employeeId
     })
 
-@app.get("/list_insight")
-async def list_insights():
-    return ORJSONResponse([
+
+insights = [
         {
             "Insight": "Insight text 1", "Name": "Insight1"
         },
         {
             "Insight": "Insight text 2", "Name": "Insight2"
         }
-    ])
+    ]
+
+@app.get("/list_insight")
+async def list_insights():
+    return ORJSONResponse(insights)
 
 @app.post("/add_insight")
 async def add_insight(insight: Insight):
-    print(insight)
+    insights.append(insight.__dict__)
     return 200
