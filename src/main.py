@@ -10,29 +10,29 @@ from fastapi import Form
 from fastapi.staticfiles import StaticFiles
 
 
-def as_form(cls: Type[BaseModel]):
-    new_parameters = []
+# def as_form(cls: Type[BaseModel]):
+#     new_parameters = []
 
-    for field_name, model_field in cls.__fields__.items():
-        model_field: ModelField  # type: ignore
+#     for field_name, model_field in cls.__fields__.items():
+#         model_field: ModelField  # type: ignore
 
-        new_parameters.append(
-             inspect.Parameter(
-                 model_field.alias,
-                 inspect.Parameter.POSITIONAL_ONLY,
-                 default=Form(...) if model_field.required else Form(model_field.default),
-                 annotation=model_field.outer_type_,
-             )
-         )
+#         new_parameters.append(
+#              inspect.Parameter(
+#                  model_field.alias,
+#                  inspect.Parameter.POSITIONAL_ONLY,
+#                  default=Form(...) if model_field.required else Form(model_field.default),
+#                  annotation=model_field.outer_type_,
+#              )
+#          )
 
-    async def as_form_func(**data):
-        return cls(**data)
+#     async def as_form_func(**data):
+#         return cls(**data)
 
-    sig = inspect.signature(as_form_func)
-    sig = sig.replace(parameters=new_parameters)
-    as_form_func.__signature__ = sig  # type: ignore
-    setattr(cls, 'as_form', as_form_func)
-    return cls
+#     sig = inspect.signature(as_form_func)
+#     sig = sig.replace(parameters=new_parameters)
+#     as_form_func.__signature__ = sig  # type: ignore
+#     setattr(cls, 'as_form', as_form_func)
+#     return cls
 
 
 app = FastAPI()
@@ -49,7 +49,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@as_form
+# @as_form
 class Employee(BaseModel):
     employeeId : int
     firstName : str
@@ -104,4 +104,6 @@ async def list_employees():
 async def add_employee(employee: Employee):
     employee_data.append(employee)
 
-    return 200
+    return ORJSONResponse({
+        "status": 200, "id":employee.employeeId
+    })
