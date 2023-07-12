@@ -58,6 +58,9 @@ class Employee(BaseModel):
     employeePhone: str
     employeeEmail : str
 
+class Insight(BaseModel):
+    Name: str
+    Insight: str
 
 employee_data = [
     {
@@ -107,3 +110,19 @@ async def add_employee(employee: Employee):
     return ORJSONResponse({
         "status": 200, "id":employee.employeeId
     })
+
+@app.get("/list_insight")
+async def list_insights():
+    return ORJSONResponse([
+        {
+            "Insight": "Insight text 1", "Name": "Insight1"
+        },
+        {
+            "Insight": "Insight text 2", "Name": "Insight2"
+        }
+    ])
+
+@app.post("/add_insight")
+async def add_insight(insight: Insight):
+    print(insight)
+    return 200
