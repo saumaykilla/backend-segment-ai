@@ -7,6 +7,7 @@ from pydantic.fields import ModelField
 from typing import Type
 import inspect
 from fastapi import Form
+from fastapi.staticfiles import StaticFiles
 
 
 def as_form(cls: Type[BaseModel]):
@@ -35,6 +36,8 @@ def as_form(cls: Type[BaseModel]):
 
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 origins = ["*"]
 
