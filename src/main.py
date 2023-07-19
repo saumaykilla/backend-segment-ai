@@ -157,6 +157,6 @@ async def generate_pie_chart(request: Request):
         image_buffer.seek(0)
 
         # Return the image as a raw byte string
-        return response(content=image_buffer.read(), media_type="image/png")
+        return Response(content=image_buffer.read(), media_type="image/png")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
