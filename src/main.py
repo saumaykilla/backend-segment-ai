@@ -1,13 +1,23 @@
+from http.client import HTTPException
+from urllib.request import Request
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
+from h11 import Response
+from matplotlib import pyplot as plt
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
 from pydantic.fields import ModelField
-from typing import Type
+from typing import Type, io
 import inspect
 from fastapi import Form
 from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+import matplotlib.pyplot as plt
+import io
+import json
 
 
 # def as_form(cls: Type[BaseModel]):
@@ -129,3 +139,24 @@ async def list_insights():
 async def add_insight(insight: Insight):
     insights.append(insight.__dict__)
     return 200
+
+app.post('/generate_pie_chart')
+async def generate_pie_chart(request: Request):
+    try:
+        data = await request.json()
+
+        labels = list(data.keys())
+        values = list(data.values())
+
+        plt.pie(values, labels=labels, autopct='%1.1f%%')
+        plt.axis('equal')
+
+        # Save the pie chart to a BytesIO buffer
+        image_buffer = io.BytesIO()
+        plt.savefig(image_buffer, format='png')
+        image_buffer.seek(0)
+
+        # Return the image as a raw byte string
+        return response(content=image_buffer.read(), media_type="image/png")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
