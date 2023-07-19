@@ -148,6 +148,22 @@
           "application/json"
         ]
       }
+    },
+    "/generate_pie_chart": {
+      "post": {
+        "summary": "Generate Pie Chart",
+        "operationId": "generate_pie_chart_generate_pie_chart_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "schema": {}
+          }
+        },
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ]
+      }
     }
   },
   "swagger": "2.0",
