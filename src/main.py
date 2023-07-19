@@ -141,9 +141,14 @@ async def add_insight(insight: Insight):
     return 200
 
 @app.post('/generate_pie_chart')
-async def generate_pie_chart(request: Request):
+async def generate_pie_chart():
     try:
-        data = await request.json()
+        # Hardcoded JSON data (you can replace this with your desired data)
+        data = {
+            "Category 1": 30,
+            "Category 2": 50,
+            "Category 3": 20,
+        }
 
         labels = list(data.keys())
         values = list(data.values())
@@ -159,4 +164,4 @@ async def generate_pie_chart(request: Request):
         # Return the image as a raw byte string
         return Response(content=image_buffer.read(), media_type="image/png")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        return Response(content=str(e), status_code=500, media_type="text/plain")
