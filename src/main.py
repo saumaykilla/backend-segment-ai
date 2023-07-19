@@ -140,7 +140,7 @@ async def add_insight(insight: Insight):
     insights.append(insight.__dict__)
     return 200
 
-app.post('/generate_pie_chart')
+@app.post('/generate_pie_chart')
 async def generate_pie_chart(request: Request):
     try:
         data = await request.json()
