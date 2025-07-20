@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from auth import authenticate_request
-
+from routes.user import router as user_router
 app = FastAPI()
 
 
@@ -47,12 +47,5 @@ async def root():
 
 
 
-@app.get("/user")
-async def protected_route(request: Request):
-    try:
-        user = getattr(request.state, "user", None)
-        if not user:
-            return {"error": "Not authorized"}
-        return {"message": "This is a protected route", "user": user}
-    except Exception:
-        return {"error": "Internal Server Error"}
+
+app.include_router(user_router,prefix="/user", tags=["User"])
