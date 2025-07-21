@@ -113,11 +113,13 @@ async def generate_insights(request: Request, body: PromptInput):
             for category in expanded_focus_areas
         ]
 
-        results = await asyncio.gather(*tasks)
+        results = await asyncio.gather(*tasks, return_exceptions=True)
 
         final_output = {}
         for res in results:
-            if res:
+            if isinstance(res, Exception):
+                logger.error(f"❌ Task error: {res}")
+            elif res:
                 final_output.update(res)
         return final_output
 
