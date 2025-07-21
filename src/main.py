@@ -8,6 +8,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from auth import authenticate_request
 from routes.user import router as user_router
+from routes.generate import router as generate_router
 app = FastAPI()
 
 
@@ -47,3 +48,4 @@ async def root():
 
 
 app.include_router(user_router,prefix="/user", tags=["User"])
+app.include_router(generate_router,prefix="/api/v1", tags=["User"])
