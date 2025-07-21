@@ -16,7 +16,6 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(
 logger = logging.getLogger(__name__)
 
 # Gemini LLM
-llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 
 # Prompt dictionary
 CATEGORY_PROMPTS = {
@@ -47,8 +46,10 @@ class PromptInput(BaseModel):
 
 # Async function for one category
 async def run_prompt(product, business_objective, segment, category):
+
     start = time.time()
     logger.info(f"⏳ Starting prompt for: {category}")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
     try:
         prompt_template = CATEGORY_PROMPTS[category]
 
